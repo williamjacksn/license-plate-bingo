@@ -1,0 +1,9 @@
+services:
+  shell:
+    entrypoint:
+      - /bin/sh
+    image: ghcr.io/williamjacksn/license-plate-bingo
+    init: true
+    volumes:
+      - ./:/home/python/license-plate-bingo
+    working_dir: /home/python/license-plate-bingo
