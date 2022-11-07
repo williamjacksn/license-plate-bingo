@@ -1,4 +1,12 @@
 services:
+  lpb:
+    image: ghcr.io/williamjacksn/license-plate-bingo
+    init: true
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/home/python/license-plate-bingo
+
   shell:
     entrypoint:
       - /bin/sh

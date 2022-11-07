@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="g-1 pt-3 row">
+        <div class="col-auto">
+            <input aria-label="Find a state" autofocus class="form-control" id="filter-input"
+                   placeholder="Find a state ..." type="text">
+        </div>
+    </div>
+
+    <div class="pt-3 row">
+        <div class="col">
+        {% for s in g.states %}
+            <a class="btn btn-outline-danger mb-3 me-2">{{ s }}</a>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
