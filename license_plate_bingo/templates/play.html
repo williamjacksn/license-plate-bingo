@@ -10,9 +10,50 @@
 
     <div class="pt-3 row">
         <div class="col">
-        {% for s in g.states %}
-            <a class="btn btn-outline-danger mb-3 me-2">{{ s }}</a>
-        {% endfor %}
+            <div class="progress">
+                {% set pct = (g.game.found | length) * 2 %}
+                <div class="bg-success progress-bar" style="width: {{ pct }}%">{{ g.game.found | length }}/50</div>
+            </div>
         </div>
     </div>
+
+    <div class="pt-3 row">
+        <div class="col">
+            <h2 class="mb-3">Looking</h2>
+            <form data-hx-post="{{ url_for('update') }}">
+                <input name="action" type="hidden" value="add">
+                <input name="game-id" type="hidden" value="{{ g.game.game_id }}">
+            {% for s in g.game.looking | sort %}
+                <button class="btn btn-outline-warning collapse filter-candidate mb-3 me-2 show"
+                        data-filter-value="{{ g.state_name_to_abbr[s] | lower }} {{ s | lower }}" name="state"
+                        type="submit" value="{{ s }}">
+                    {{- g.state_name_to_abbr[s] -}}
+                </button>
+            {% endfor %}
+            </form>
+        </div>
+    </div>
+
+    <div class="pt-3 row">
+        <div class="col">
+            <h2 class="mb-3">Found</h2>
+            <form data-hx-post="{{ url_for('update') }}">
+                <input name="action" type="hidden" value="remove">
+                <input name="game-id" type="hidden" value="{{ g.game.game_id }}">
+            {% for s in g.game.found | sort %}
+                <button class="btn btn-outline-success collapse filter-candidate mb-3 me-2 show"
+                   data-filter-value="{{ g.state_name_to_abbr[s] | lower }} {{ s | lower }}" name="state"
+                        type="submit" value="{{ s }}">
+                    {{- g.state_name_to_abbr[s] -}}
+                </button>
+            {% endfor %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block end_of_body %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='debounce-1.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='filter.js') }}"></script>
 {% endblock %}
