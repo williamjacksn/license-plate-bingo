@@ -24,7 +24,7 @@
                 <input name="action" type="hidden" value="add">
                 <input name="game-id" type="hidden" value="{{ g.game.game_id }}">
             {% for s in g.game.looking | sort %}
-                <button class="btn btn-outline-warning collapse filter-candidate mb-3 me-2 show"
+                <button class="btn btn-outline-warning collapse filter-candidate font-monospace mb-3 me-2 show"
                         data-filter-value="{{ g.state_name_to_abbr[s] | lower }} {{ s | lower }}" name="state"
                         type="submit" value="{{ s }}">
                     {{- g.state_name_to_abbr[s] -}}
@@ -41,7 +41,7 @@
                 <input name="action" type="hidden" value="remove">
                 <input name="game-id" type="hidden" value="{{ g.game.game_id }}">
             {% for s in g.game.found | sort %}
-                <button class="btn btn-outline-success collapse filter-candidate mb-3 me-2 show"
+                <button class="btn btn-outline-success collapse filter-candidate font-monospace mb-3 me-2 show"
                    data-filter-value="{{ g.state_name_to_abbr[s] | lower }} {{ s | lower }}" name="state"
                         type="submit" value="{{ s }}">
                     {{- g.state_name_to_abbr[s] -}}
