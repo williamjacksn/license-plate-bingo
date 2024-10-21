@@ -5,7 +5,7 @@ import uuid
 import waitress
 import werkzeug.middleware.proxy_fix
 
-__version__ = '2022.2'
+__version__ = '2024.1'
 
 app = flask.Flask(__name__)
 app.wsgi_app = werkzeug.middleware.proxy_fix.ProxyFix(app.wsgi_app, x_port=1)
