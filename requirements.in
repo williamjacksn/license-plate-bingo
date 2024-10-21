@@ -1,5 +1,4 @@
 flask
 fort
 notch
-psycopg2-binary
 waitress
