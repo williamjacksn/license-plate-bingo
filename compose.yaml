@@ -7,6 +7,15 @@ services:
     volumes:
       - ./:/home/python/license-plate-bingo
 
+  pip-compile:
+    entrypoint:
+      - /home/python/venv/bin/pip-compile
+    image: ghcr.io/williamjacksn/pip-tools:py3.13
+    init: true
+    volumes:
+      - ./:/home/python/license-plate-bingo
+    working_dir: /home/python/license-plate-bingo
+
   shell:
     entrypoint:
       - /bin/sh
