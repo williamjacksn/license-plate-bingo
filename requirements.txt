@@ -4,8 +4,6 @@
 #
 #    pip-compile
 #
---extra-index-url https://alpine-wheels.github.io/index
-
 blinker==1.8.2
     # via flask
 click==8.1.7
