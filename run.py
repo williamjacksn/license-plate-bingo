@@ -3,7 +3,7 @@ import signal
 import sys
 import license_plate_bingo.app
 
-log = notch.make_log('license-plate-bingo-entrypoint')
+notch.configure()
 
 def handle_sigterm(_signale, _frame):
     sys.exit()
