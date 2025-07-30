@@ -5,6 +5,7 @@ import license_plate_bingo.app
 
 notch.configure()
 
+
 def handle_sigterm(_signale, _frame):
     sys.exit()
 
