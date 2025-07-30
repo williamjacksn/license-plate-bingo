@@ -1,0 +1,12 @@
+[project]
+name = "license-plate-bingo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.1",
+    "fort>=2025.0",
+    "notch>=2025.2",
+    "waitress>=3.0.2",
+]
