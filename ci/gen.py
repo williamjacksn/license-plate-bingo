@@ -1,20 +1,19 @@
 import json
 import pathlib
 
-
 THIS_FILE = pathlib.PurePosixPath(
-    pathlib.Path(__file__).relative_to(pathlib.Path().resolve())
+    pathlib.Path(__file__).relative_to(pathlib.Path.cwd())
 )
 
 
-def gen(content: dict, target: str):
+def gen(content: dict, target: str) -> None:
     pathlib.Path(target).parent.mkdir(parents=True, exist_ok=True)
     pathlib.Path(target).write_text(
         json.dumps(content, indent=2, sort_keys=True), newline="\n"
     )
 
 
-def gen_dependabot(target: str):
+def gen_dependabot(target: str) -> None:
     def update(ecosystem: str) -> dict:
         return {
             "package-ecosystem": ecosystem,
@@ -32,7 +31,7 @@ def gen_dependabot(target: str):
     gen(content, target)
 
 
-def main():
+def main() -> None:
     gen_dependabot(".github/dependabot.yaml")
 
 

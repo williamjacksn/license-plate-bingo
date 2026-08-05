@@ -10,3 +10,12 @@ dependencies = [
     "notch>=2025.2",
     "waitress>=3.0.2",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.1",
+    "ty>=0.0.67",
+]
+
+[tool.ruff.lint]
+extend-select = ["ANN", "Q", "RSE", "S"]

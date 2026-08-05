@@ -1,6 +1,7 @@
 import datetime
-import fort
 import uuid
+
+import fort
 
 STATE_NAME_TO_ABBR = {
     "Alabama": "AL",
@@ -60,7 +61,7 @@ STATE_ABBR_TO_NAME = {v: k for k, v in STATE_NAME_TO_ABBR.items()}
 class Database(fort.SQLiteDatabase):
     _version: int = None
 
-    def games_get(self, game_id: uuid.UUID):
+    def games_get(self, game_id: uuid.UUID) -> dict | None:
         sql = """
             select found, game_id, started_at from games where game_id = :game_id
         """
@@ -80,7 +81,7 @@ class Database(fort.SQLiteDatabase):
             "found": found,
             "game_id": game_id,
             "looking": looking,
-            "started_at": record["started_at"].replace(tzinfo=datetime.timezone.utc),
+            "started_at": record["started_at"].replace(tzinfo=datetime.UTC),
         }
 
     def games_insert(self) -> uuid.UUID:
@@ -91,12 +92,12 @@ class Database(fort.SQLiteDatabase):
         game_id = uuid.uuid4()
         params = {
             "game_id": game_id,
-            "started_at": datetime.datetime.utcnow(),
+            "started_at": datetime.datetime.now(tz=datetime.UTC),
         }
         self.u(sql, params)
         return game_id
 
-    def games_update(self, game_id: uuid.UUID, found: set):
+    def games_update(self, game_id: uuid.UUID, found: set) -> None:
         sql = """
             update games
             set found = :found
@@ -108,7 +109,7 @@ class Database(fort.SQLiteDatabase):
         }
         self.u(sql, params)
 
-    def db_migrate(self):
+    def db_migrate(self) -> None:
         self.log.info(f"Database schema version is {self.version}")
         if self.version < 1:
             self.log.info("Migrating database to schema version 1")
@@ -155,9 +156,7 @@ class Database(fort.SQLiteDatabase):
         params = {
             "table_name": table_name,
         }
-        if self.q_val(sql, params) is None:
-            return False
-        return True
+        return self.q_val(sql, params) is not None
 
     @property
     def version(self) -> int:
@@ -173,14 +172,14 @@ class Database(fort.SQLiteDatabase):
         return self._version
 
     @version.setter
-    def version(self, value: int):
+    def version(self, value: int) -> None:
         self._version = value
         sql = """
             insert into schema_versions (schema_version, migration_timestamp)
             values (:schema_version, :migration_timestamp)
         """
         params = {
-            "migration_timestamp": datetime.datetime.utcnow(),
+            "migration_timestamp": datetime.datetime.now(tz=datetime.UTC),
             "schema_version": value,
         }
         self.u(sql, params)

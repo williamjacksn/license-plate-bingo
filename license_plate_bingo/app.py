@@ -1,9 +1,11 @@
-import flask
-import license_plate_bingo.db
 import os
 import uuid
+
+import flask
 import waitress
 import werkzeug.middleware.proxy_fix
+
+import license_plate_bingo.db
 
 __version__ = "2024.1"
 
@@ -16,7 +18,7 @@ def get_db() -> license_plate_bingo.db.Database:
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     app.logger.debug(f"{flask.request.method} {flask.request.path}")
     # flask.session.permanent = True
     flask.g.version = __version__
@@ -24,12 +26,12 @@ def before_request():
 
 
 @app.get("/")
-def index():
+def index() -> str:
     return flask.render_template("index.html")
 
 
 @app.post("/update")
-def update():
+def update() -> flask.Response:
     for k, v in flask.request.values.lists():
         app.logger.debug(f"{k}: {v}")
     game_id = flask.request.values.get("game-id")
@@ -58,13 +60,13 @@ def update():
 
 
 @app.get("/new")
-def new():
+def new() -> flask.Response:
     game_id = get_db().games_insert()
     return flask.redirect(flask.url_for("play", game_id=game_id))
 
 
 @app.get("/play/<uuid:game_id>")
-def play(game_id: uuid.UUID):
+def play(game_id: uuid.UUID) -> str:
     game = get_db().games_get(game_id)
     if game is None:
         return flask.abort(404)
@@ -73,8 +75,8 @@ def play(game_id: uuid.UUID):
     return flask.render_template("play.html")
 
 
-def main():
+def main() -> None:
     app.logger.info(f"license-plate-bingo {__version__}")
     get_db().db_migrate()
-    web_server_threads = int(os.getenv("WEB_SERVER_THREADS", 8))
+    web_server_threads = int(os.getenv("WEB_SERVER_THREADS", "8"))
     waitress.serve(app, ident=None, threads=web_server_threads)
