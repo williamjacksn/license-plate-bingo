@@ -1,41 +1,20 @@
-{
-  "updates": [
-    {
-      "allow": [
-        {
-          "dependency-type": "all"
-        }
-      ],
-      "directory": "/",
-      "package-ecosystem": "docker",
-      "schedule": {
-        "interval": "weekly"
-      }
-    },
-    {
-      "allow": [
-        {
-          "dependency-type": "all"
-        }
-      ],
-      "directory": "/",
-      "package-ecosystem": "github-actions",
-      "schedule": {
-        "interval": "weekly"
-      }
-    },
-    {
-      "allow": [
-        {
-          "dependency-type": "all"
-        }
-      ],
-      "directory": "/",
-      "package-ecosystem": "uv",
-      "schedule": {
-        "interval": "weekly"
-      }
-    }
-  ],
-  "version": 2
-}
+version: 2
+updates:
+  - package-ecosystem: docker
+    allow:
+      - dependency-type: all
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    allow:
+      - dependency-type: all
+    directory: /
+    schedule:
+      interval: weekly
+  - package-ecosystem: uv
+    allow:
+      - dependency-type: all
+    directory: /
+    schedule:
+      interval: weekly
