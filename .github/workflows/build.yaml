@@ -1,5 +1,4 @@
-name: Build and deploy app
-
+name: Build container image
 on:
   pull_request:
     branches:
@@ -44,23 +43,3 @@ jobs:
           cache-from: type=gha
           push: true
           tags: ${{ env.image_name }}:latest
-
-  deploy:
-    name: Deploy the app
-    needs:
-      - build
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-
-      - name: Configure SSH key
-        run: |
-          install --mode=600 -D /dev/null ~/.ssh/id_ed25519
-          echo "${{ secrets.ssh_private_key }}" > ~/.ssh/id_ed25519
-          ssh-keyscan -H -p 53185 ${{ secrets.ssh_host }} > ~/.ssh/known_hosts
-
-      - name: Pull latest container image
-        run: ssh ssh://${{ secrets.ssh_user }}@${{ secrets.ssh_host }}:53185 /usr/bin/docker compose --file /home/${{ secrets.ssh_user }}/syncthing/coruscant/compose.yaml pull lpb
-
-      - name: Restart app
-        run: ssh ssh://${{ secrets.ssh_user }}@${{ secrets.ssh_host }}:53185 /usr/bin/docker compose --file /home/${{ secrets.ssh_user }}/syncthing/coruscant/compose.yaml up --detach lpb
