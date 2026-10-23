@@ -3,18 +3,18 @@ name = "license-plate-bingo"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
-    "flask>=3.1.1",
+    "flask>=3.1.3",
     "fort>=2026.0",
-    "notch>=2025.2",
+    "notch>=2026.0",
     "waitress>=3.0.2",
 ]
 
 [dependency-groups]
 dev = [
     "ruff>=0.17.2",
-    "ty>=0.0.67",
+    "ty>=0.0.91",
 ]
 
 [tool.ruff.lint]
