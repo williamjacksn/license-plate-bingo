@@ -1,4 +1,4 @@
-import datetime
+import datetime as dt
 import uuid
 
 import fort
@@ -81,7 +81,7 @@ class Database(fort.SQLiteDatabase):
             "found": found,
             "game_id": game_id,
             "looking": looking,
-            "started_at": record["started_at"].replace(tzinfo=datetime.UTC),
+            "started_at": record["started_at"].replace(tzinfo=dt.UTC),
         }
 
     def games_insert(self) -> uuid.UUID:
@@ -92,7 +92,7 @@ class Database(fort.SQLiteDatabase):
         game_id = uuid.uuid4()
         params = {
             "game_id": game_id,
-            "started_at": datetime.datetime.now(tz=datetime.UTC),
+            "started_at": dt.datetime.now(tz=dt.UTC),
         }
         self.u(sql, params)
         return game_id
@@ -179,7 +179,7 @@ class Database(fort.SQLiteDatabase):
             values (:schema_version, :migration_timestamp)
         """
         params = {
-            "migration_timestamp": datetime.datetime.now(tz=datetime.UTC),
+            "migration_timestamp": dt.datetime.now(tz=dt.UTC),
             "schema_version": value,
         }
         self.u(sql, params)
